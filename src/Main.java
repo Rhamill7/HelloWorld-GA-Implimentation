@@ -5,7 +5,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		int size = 100;
+		int size = 2048;
 		Populate pop = new Populate();
 		String target = "Hello World!";
 	//	double fitnessEval = 0.0;

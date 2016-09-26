@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -27,10 +28,23 @@ public class Populate {
 		
 	}
 
-	/*perform crossover*/
-	public List<String> crossover(List<String> P){
-	
-		return crossP;
+	/*perform Parents Selection*/
+	public List<String> parentSelect(List<String> P){
+		// Randomly select two parents via tournament selection.
+		Random rand = new Random();
+		int tournamentSize = 4;
+		List<String> parents = new ArrayList<String>();
+		for (int i = 0; i < 2; i++) {
+					parents.add(P.get(rand.nextInt(P.size())));
+					for (int j = 0; j < tournamentSize; j++) {
+						int idx = rand.nextInt(P.size());
+						if (P.get(idx).compareTo(parents.get(i)) < 0) {
+							parents.remove(i);
+						
+						}
+					}
+				}
+		return parents;
 		
 	}
 	
@@ -40,8 +54,9 @@ public class Populate {
 		}
 	
 	/*Evaluate Current Population*/
-	public int evaluate(String target, List<String> P){
-		int fittest = Integer.MAX_VALUE;
+	public HashMap<String,Integer> evaluate(String target, List<String> P){
+		HashMap<String, Integer> fitness = new HashMap<String, Integer>();
+		int fitnessValue = Integer.MAX_VALUE;
 		String fittestGene = "";
 		char [] charTarget = target.toCharArray();
 	//	System.out.println(P.size());
@@ -49,21 +64,12 @@ public class Populate {
 			String gene = P.get(k);
 		//	System.out.println(P.get(k).toCharArray());
 		//	System.out.println(P.get(k).toString());
-			int result = calculateFitness(gene, charTarget);
-			if (result < fittest){
-				fittest = result;
-				fittestGene = gene;
-			}
-			if (fittest == 0) {
-				break;
-			}
-		//	System.out.println(fittest);
-			
+			fitnessValue = calculateFitness(gene, charTarget);
+		//System.out.println(fitnessValue + " " + gene);
+			fitness.put(gene, fitnessValue);
+			//System.out.println(fitness.get(key));
 		}
-		if (fittest !=0){
-			List<String> crossP = this.crossover(P);
-		}
-		return fittest;
+		return fitness;
 		
 		
 	}
