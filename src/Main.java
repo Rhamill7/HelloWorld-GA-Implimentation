@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main {
@@ -7,15 +8,19 @@ public class Main {
 		
 		int size = 2048;
 		Populate pop = new Populate();
+		Evolution evolve = new Evolution();
 		String target = "Hello World!";
 	//	double fitnessEval = 0.0;
 		String phrase = "";
 		List<String> P = pop.createPopulation(size);
 		
+		
 		while (phrase != target) {
+			HashMap <String, Integer> evaluated = pop.evaluate(target, P);
 			
-			 pop.evaluate(target, P);
-		//	System.out.println(fittest);
+			List <String> pDash = evolve.createNewPopulation(P); 
+			P = pDash;
+			//	System.out.println(fittest);
 			System.exit(0);
 		}
 			
