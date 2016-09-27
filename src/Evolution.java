@@ -9,12 +9,14 @@ public class Evolution {
 		List<String> pDash = new ArrayList<String>(P.subList(0,P.size()/2)); 
 		while (pDash.size() < P.size() ){
 			List<String> parents= parentSelect(P);
-			List<String> children = crossover(parents);
+			List<String> children = crossover(parents); 
+			pDash.addAll(children);
 		}
-		
 		return pDash;
 	}
 		
+	
+	
 
 	/* perform Parents Selection */
 	public List<String> parentSelect(List<String> P) {
@@ -37,8 +39,9 @@ public class Evolution {
 	
 	public List<String> crossover(List<String> parents){
 		List<String> children = new ArrayList<String>();
-		
-		
+		for (int i = 0; i < parents.size(); i++){
+			
+		}
 		return children;
 		
 	}
