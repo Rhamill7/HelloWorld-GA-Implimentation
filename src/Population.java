@@ -43,18 +43,17 @@ public class Population {
 		while (idx < pDash.length) {
 			// Check to see if we should perform a crossover.
 			if (rand.nextFloat() <= crossover) {
-
 				// Select the parents and mate to get their children
 				Chromosome[] parents = selectParents();
-				Chromosome[] children = parents[0].mate(parents[1]);
-				//Add first child
+				Chromosome[] children = parents[0].crossover(parents[1]);
+				// Add first child
 				pDash[idx++] = children[0];
 
 				// Add for the second child, if there is room.
 				if (idx < pDash.length) {
 					pDash[idx] = children[1];
 				}
-			} else { 
+			} else {
 				// Determine if mutation should occur.
 				if (rand.nextFloat() <= mutation) {
 					pDash[idx] = p[idx].mutate();
@@ -64,16 +63,19 @@ public class Population {
 			}
 			idx++;
 		}
-		Arrays.sort(pDash); //sort based on fitness 
+		Arrays.sort(pDash); // sort based on fitness
 		p = pDash; // P<-P'
 	}
 
+	// Selection here
 	private Chromosome[] selectParents() {
 		Chromosome[] parents = new Chromosome[2];
 		// Randomly select two parents via tournament selection.
 		for (int i = 0; i < 2; i++) {
-			parents[i] = p[rand.nextInt(p.length)]; //get random possible parent
-			for (int j = 0; j < tournamentSize; j++) { //compare with other 3  possibles
+			parents[i] = p[rand.nextInt(p.length)]; // get random possible
+													// parent
+			for (int j = 0; j < tournamentSize; j++) { // compare with other 3
+														// possibles
 				int idx = rand.nextInt(p.length);
 				if (p[idx].compareTo(parents[i]) < 0) {
 					parents[i] = p[idx];
@@ -83,53 +85,5 @@ public class Population {
 
 		return parents;
 	}
-
-	// /* Generate population */
-	// public List<String> createPopulation(int size) {
-	// List<String> P = new ArrayList<String>();
-	// Random r = new Random();
-	// for (int j = 0; j < size; j++) {
-	// char[] entry = new char[12];
-	// for (int i = 0; i < entry.length; i++) {
-	// entry[i] = (char) (r.nextInt(126 - 32 + 1) + 32); // (max - min + 1) +
-	// min
-	// }
-	// String change = entry.toString();
-	// P.add(change);
-	// // System.out.println(P.get(j));
-	// System.out.println(entry);
-	// }
-	// return P;
-	// }
-	//
-	// /* Evaluate Current Population */
-	// public HashMap<String, Integer> evaluate(String target, List<String> P) {
-	// HashMap<String, Integer> fitness = new HashMap<String, Integer>();
-	// int fitnessValue = Integer.MAX_VALUE;
-	// String fittestGene = "";
-	// char[] charTarget = target.toCharArray();
-	// // System.out.println(P.size());
-	// for (int k = 0; k < P.size(); k++) {
-	// String gene = P.get(k);
-	// // System.out.println(P.get(k).toCharArray());
-	// // System.out.println(P.get(k).toString());
-	// fitnessValue = calculateFitness(gene, charTarget);
-	// // System.out.println(fitnessValue + " " + gene);
-	// fitness.put(gene, fitnessValue);
-	// // System.out.println(fitness.get(key));
-	// }
-	// return fitness;
-	//
-	// }
-	//
-	// /* Calculate the fitness of an entry in P */
-	// private int calculateFitness(String gene, char[] target) {
-	// int fitness = 0;
-	// char[] geneArray = gene.toCharArray();
-	// for (int i = 0; i < geneArray.length; i++) {
-	// fitness += Math.abs(((int) geneArray[i]) - ((int) target[i]));
-	// }
-	// return fitness;
-	// }
 
 }
