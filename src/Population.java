@@ -6,24 +6,21 @@ public class Population {
 	public Chromosome[] p;
 	public int tournamentSize = 3;
 	public Random rand = new Random();
-	float elitism;
 	float mutation;
 	float crossover;
 
-	public Population() {
-	}
+	public Population() {}
 
-	public void createPopulation(int populationSize, float crossoverRatio, float elitismRatio, float mutationRatio) {
+	public void createPopulation(int populationSize, float crossoverRatio,  float mutationRatio) {
 
 		this.crossover = crossoverRatio;
-		this.elitism = elitismRatio;
 		this.mutation = mutationRatio;
-		this.p = new Chromosome[populationSize]; // set population to required
-													// size
+		this.p = new Chromosome[populationSize]; 
+		
 		for (int i = 0; i < populationSize; i++) {
 			this.p[i] = Chromosome.generateRandom();
 		}
-		// Sort in order of fitness
+		/* Sort in order of fitness*/
 		Arrays.sort(p);
 	}
 
@@ -36,54 +33,59 @@ public class Population {
 
 	public void evolve() {
 		Chromosome[] pDash = new Chromosome[p.length];
-		// Determine how much of the population you would like to keep
-		int idx = Math.round(p.length * elitism);
-		System.arraycopy(p, 0, pDash, 0, idx);
+		
+		int index = 0; 
 		// Perform crossover and mutation if size isnt equal
-		while (idx < pDash.length) {
+		while (index < pDash.length) {
 			// Check to see if we should perform a crossover.
 			if (rand.nextFloat() <= crossover) {
-				// Select the parents and mate to get their children
+				
 				Chromosome[] parents = selectParents();
 				Chromosome[] children = parents[0].crossover(parents[1]);
-				// Add first child
-				pDash[idx++] = children[0];
-
-				// Add for the second child, if there is room.
-				if (idx < pDash.length) {
-					pDash[idx] = children[1];
+			
+				pDash[index++] = children[0];
+				//If space in array add 2nd child
+				if (index < pDash.length) {
+					pDash[index] = children[1];
 				}
 			} else {
+				
 				// Determine if mutation should occur.
 				if (rand.nextFloat() <= mutation) {
-					pDash[idx] = p[idx].mutate();
+					pDash[index] = p[index].mutate();
 				} else {
-					pDash[idx] = p[idx];
+					pDash[index] = p[index];
 				}
 			}
-			idx++;
+			index++;
 		}
 		Arrays.sort(pDash); // sort based on fitness
 		p = pDash; // P<-P'
 	}
 
-	// Selection here
+	/* Selection done here TOURNAMENT STYLE! FIGHTTT!! */
 	private Chromosome[] selectParents() {
 		Chromosome[] parents = new Chromosome[2];
 		// Randomly select two parents via tournament selection.
 		for (int i = 0; i < 2; i++) {
-			parents[i] = p[rand.nextInt(p.length)]; // get random possible
-													// parent
-			for (int j = 0; j < tournamentSize; j++) { // compare with other 3
-														// possibles
-				int idx = rand.nextInt(p.length);
-				if (p[idx].compareTo(parents[i]) < 0) {
-					parents[i] = p[idx];
+			parents[i] = p[rand.nextInt(p.length)]; // get random parent			
+			for (int j = 0; j < tournamentSize; j++) { // compare with others
+				int index = rand.nextInt(p.length);
+				if (p[index].compareTo(parents[i]) < 0) {
+					parents[i] = p[index];
 				}
 			}
 		}
-
 		return parents;
+	}
+	
+	public void random()  {
+		Chromosome[] randomPopulation = new Chromosome[p.length];
+		for (int i = 0; i < p.length; i++) {
+			randomPopulation[i] = Chromosome.generateRandom();
+		}
+		/* Sort in order of fitness*/
+		Arrays.sort(randomPopulation);
 	}
 
 }

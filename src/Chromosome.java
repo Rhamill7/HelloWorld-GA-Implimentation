@@ -21,7 +21,7 @@ public class Chromosome implements Comparable<Chromosome> {
 		return fitness;
 	}
 
-	// Generate random chromosome
+	/* Generate random chromosome */
 	static Chromosome generateRandom() {
 		char[] gene = new char[target.length];
 		for (int i = 0; i < gene.length; i++) {
@@ -43,40 +43,38 @@ public class Chromosome implements Comparable<Chromosome> {
 		return fitness;
 	}
 
-	/* mutate */
+
+	/* Crossover Performed here */
+	public Chromosome[] crossover(Chromosome mate) {
+		
+		char[] geneArray1 = gene.toCharArray();
+		char[] geneArray2 = mate.gene.toCharArray();
+		char[] child1 = new char[gene.length()];
+		char[] child2 = new char[gene.length()];
+		
+		/*Variable to modify split point*/
+		int splitPoint = geneArray1.length/2;
+		
+		System.arraycopy(geneArray1, 0, child1, 0, splitPoint);
+		System.arraycopy(geneArray2, splitPoint, child1, splitPoint, (child1.length - splitPoint));
+
+		System.arraycopy(geneArray2, 0, child2, 0, splitPoint);
+		System.arraycopy(geneArray1, splitPoint, child2, splitPoint, (child2.length - splitPoint));
+
+		return new Chromosome[] { new Chromosome(String.valueOf(child1)), new Chromosome(String.valueOf(child2)) };
+	}
+	
+	/* mutation perfored here*/
 	public Chromosome mutate() {
 		char[] geneChar = gene.toCharArray();
 		int ranChar = rand.nextInt(geneChar.length);
-		int delta = (rand.nextInt() % 90) + 32;
-		geneChar[ranChar] = (char) ((geneChar[ranChar] + delta) % 122);
+		int mutation = (rand.nextInt(90)+32); 
+		geneChar[ranChar] = (char) (mutation);
 
 		return new Chromosome(String.valueOf(geneChar));
 	}
 
-	// crossover
-	public Chromosome[] crossover(Chromosome mate) {
-		// Convert the genes to arrays to make thing easier.
-		char[] geneArray1 = gene.toCharArray();
-		char[] geneArray2 = mate.gene.toCharArray();
-
-		// Select a random pivot point for the mating
-		int pivot = rand.nextInt(geneArray1.length);
-
-		// Provide a container for the child gene data
-		char[] child1 = new char[gene.length()];
-		char[] child2 = new char[gene.length()];
-
-		// Copy the data from each gene to the first child.
-		System.arraycopy(geneArray1, 0, child1, 0, pivot);
-		System.arraycopy(geneArray2, pivot, child1, pivot, (child1.length - pivot));
-
-		// Repeat for the second child, but in reverse order.
-		System.arraycopy(geneArray2, 0, child2, 0, pivot);
-		System.arraycopy(geneArray1, pivot, child2, pivot, (child2.length - pivot));
-
-		return new Chromosome[] { new Chromosome(String.valueOf(child1)), new Chromosome(String.valueOf(child2)) };
-	}
-
+	//Compare Method for comparing fitness
 	@Override
 	public int compareTo(Chromosome gene) {
 		if (fitness < gene.fitness) {
@@ -86,5 +84,7 @@ public class Chromosome implements Comparable<Chromosome> {
 		}
 		return 0;
 	}
+	
+	
 
 }
