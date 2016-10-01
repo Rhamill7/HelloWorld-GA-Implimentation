@@ -66,12 +66,12 @@ public class Chromosome implements Comparable<Chromosome> {
 	
 	/* mutation perfored here*/
 	public Chromosome mutate() {
-		char[] geneChar = gene.toCharArray();
-		int ranChar = rand.nextInt(geneChar.length);
+		char[] geneChars = gene.toCharArray();
+		int ranChars = rand.nextInt(geneChars.length);
 		int mutation = (rand.nextInt(90)+32); 
-		geneChar[ranChar] = (char) (mutation);
+		geneChars[ranChars] = (char) (mutation);
 
-		return new Chromosome(String.valueOf(geneChar));
+		return new Chromosome(String.valueOf(geneChars));
 	}
 
 	//Compare Method for comparing fitness

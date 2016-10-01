@@ -4,7 +4,7 @@ import java.util.Random;
 public class Population {
 
 	public Chromosome[] p;
-	public int tournamentSize = 3;
+	public int tournamentSize = 25;
 	public Random rand = new Random();
 	float mutation;
 	float crossover;
@@ -21,7 +21,7 @@ public class Population {
 			this.p[i] = Chromosome.generateRandom();
 		}
 		/* Sort in order of fitness*/
-		Arrays.sort(p);
+		Arrays.sort(p); //comment for hill climber
 	}
 
 	/* create copy of current population and return it */
@@ -79,6 +79,32 @@ public class Population {
 		return parents;
 	}
 	
+	
+	public Chromosome hillClimber(){
+		int index = rand.nextInt(p.length);
+		Chromosome best = p[index];
+		
+		
+		
+		for (int i = index, delta = 0;;i += delta) {
+			if (i == 0) delta = 1;
+		    if (i == 99) delta = -1;
+			
+		    if (p[index].getFitness() > p[i].getFitness() || i==0){
+				best = p[i];
+				delta = 1;
+			}
+			if (p[index].getFitness() < p[i].getFitness()){
+				break;
+			}
+		System.out.println(best.getGene());
+		}
+		return best;
+		
+		
+	}
+	
+	/*implements random algorithm*/
 	public void random()  {
 		Chromosome[] randomPopulation = new Chromosome[p.length];
 		for (int i = 0; i < p.length; i++) {
@@ -86,6 +112,7 @@ public class Population {
 		}
 		/* Sort in order of fitness*/
 		Arrays.sort(randomPopulation);
+		p = randomPopulation;
 	}
 
 }
