@@ -6,7 +6,7 @@ public class Main {
 		/* Modify Variables to adjust results */
 		int populationSize = 100; //100
 		int numberOfGenerations = 1;
-		float crossoverRatio = 0.6f;// 0.2 // probability of crossover 0.1f =
+		float crossoverRatio = 0.5f;// 0.2 // probability of crossover 0.1f =
 									// 10%
 		float mutationRatio = 0.4f; //0.9// probability of mutation for any gene
 
