@@ -1,30 +1,34 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args) {
-		
-		int size = 2048;
-		Populate pop = new Populate();
-		Evolution evolve = new Evolution();
-		String target = "Hello World!";
-	//	double fitnessEval = 0.0;
-		String phrase = "";
-		List<String> P = pop.createPopulation(size);
-		
-		
-		while (phrase != target) {
-			HashMap <String, Integer> evaluated = pop.evaluate(target, P);
-			
-			List <String> pDash = evolve.createNewPopulation(P); 
-			P = pDash;
 
-			System.exit(0);
+		/* Modify Variables to adjust results */
+		int populationSize = 100; //100
+		int numberOfGenerations = 1;
+		float crossoverRatio = 0.5f;// 0.2 // probability of crossover 0.1f =
+									// 10%
+		float mutationRatio = 0.4f; //0.9// probability of mutation for any gene
+
+		Population p = new Population(); // create initial population
+		p.createPopulation(populationSize, crossoverRatio, mutationRatio);
+		Chromosome bestGene = p.getPopulation()[0];
+		while (bestGene.getFitness() != 0) { // repeat until stopping condition
+			//if (numberOfGenerations == 1000) {
+			//	break;
+			//}
+			System.out.println("Gen Number: " + numberOfGenerations + " Best Gene: " + bestGene.getGene()
+					+ " Current Fitness " + bestGene.getFitness());
+			p.evolve(); // evolve( Selection, Crossover, Mutation, Termination)
+			bestGene = p.getPopulation()[0];
+			// p.random();
+			// bestGene = p.hillClimber();
+
+			numberOfGenerations++;
+
 		}
-			
+
+		System.out.println("The best gene " + bestGene.getGene() + " was reached! Huzzah!");
 	}
-	
 
 }
