@@ -20,7 +20,7 @@ public class Main {
 			
 			List <String> pDash = evolve.createNewPopulation(P); 
 			P = pDash;
-			//	System.out.println(fittest);
+
 			System.exit(0);
 		}
 			
