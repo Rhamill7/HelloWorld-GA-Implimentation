@@ -12,7 +12,7 @@ public class Chromosome implements Comparable<Chromosome> {
 		this.gene = gene;
 		this.fitness = calculateFitness(gene);
 	}
-//
+
 	public String getGene() {
 		return gene;
 	}
