@@ -3,7 +3,7 @@ import java.util.Random;
 public class Chromosome implements Comparable<Chromosome> {
 
 	/* What we are aiming for */
-	public static char[] target = "Hello world!".toCharArray();
+	public static char[] target = "Hello World!".toCharArray();
 	public static Random rand = new Random();
 	private String gene;
 	private int fitness;
@@ -53,7 +53,8 @@ public class Chromosome implements Comparable<Chromosome> {
 		char[] child2 = new char[gene.length()];
 		
 		/*Variable to modify split point*/
-		int splitPoint = geneArray1.length/2;
+	//	int splitPoint = geneArray1.length/2;
+		int splitPoint    = rand.nextInt(geneArray1.length);
 		
 		System.arraycopy(geneArray1, 0, child1, 0, splitPoint);
 		System.arraycopy(geneArray2, splitPoint, child1, splitPoint, (child1.length - splitPoint));
