@@ -43,23 +43,30 @@ public class Population {
 
 				Chromosome[] parents = selectParents();
 				Chromosome[] children = parents[0].crossover(parents[1]);
-
+				
+				for (int i=0; i<children.length;i++)
+				if (rand.nextFloat() <= mutation) {
+					children[i] = children[i].mutate();
+				}
+				
 				pDash[index++] = children[0];
+				
 				// If space in array add 2nd child
 				if (index < pDash.length) {
 					pDash[index] = children[1];
+					
 				}
+			} else {
+				pDash[index] = p[index];
 			}
-			else if (rand.nextFloat() <= mutation) {
-					pDash[index] = p[index].mutate();
-				} else {
-					pDash[index] = p[index];
-				}
-			
+
 			index++;
 		}
+		
+		
 		Arrays.sort(pDash); // sort based on fitness
 		p = pDash; // P<-P'
+
 	}
 
 	/* Selection done here TOURNAMENT STYLE! FIGHTTT!! */
