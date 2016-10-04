@@ -17,8 +17,8 @@ public class Main {
 			p.createPopulation(populationSize, crossoverRatio, mutationRatio);
 			Chromosome bestGene = p.getPopulation()[0];
 			while (bestGene.getFitness() != 0 && numberOfGenerations < 20000) {
-				//p.evolve(); 
-				p.random();
+				p.evolve(); 
+				//p.random();
 				// bestGene = p.hillClimber();
 				bestGene = p.getPopulation()[0];
 				numberOfGenerations++;
