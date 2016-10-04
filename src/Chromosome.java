@@ -43,19 +43,18 @@ public class Chromosome implements Comparable<Chromosome> {
 		return fitness;
 	}
 
-
 	/* Crossover Performed here */
 	public Chromosome[] crossover(Chromosome mate) {
-		
+
 		char[] geneArray1 = gene.toCharArray();
 		char[] geneArray2 = mate.gene.toCharArray();
 		char[] child1 = new char[gene.length()];
 		char[] child2 = new char[gene.length()];
-		
-		/*Variable to modify split point*/
-	//	int splitPoint = geneArray1.length/2;
-		int splitPoint    = rand.nextInt(geneArray1.length);
-		
+
+		/* Variable to modify split point */
+		// int splitPoint = geneArray1.length/2;
+		int splitPoint = rand.nextInt(geneArray1.length);
+
 		System.arraycopy(geneArray1, 0, child1, 0, splitPoint);
 		System.arraycopy(geneArray2, splitPoint, child1, splitPoint, (child1.length - splitPoint));
 
@@ -64,18 +63,18 @@ public class Chromosome implements Comparable<Chromosome> {
 
 		return new Chromosome[] { new Chromosome(String.valueOf(child1)), new Chromosome(String.valueOf(child2)) };
 	}
-	
-	/* mutation perfored here*/
+
+	/* mutation performed here */
 	public Chromosome mutate() {
 		char[] geneChars = gene.toCharArray();
 		int ranChars = rand.nextInt(geneChars.length);
-		int mutation = (rand.nextInt(90)+32); 
+		int mutation = (rand.nextInt(90) + 32);
 		geneChars[ranChars] = (char) (mutation);
 
 		return new Chromosome(String.valueOf(geneChars));
 	}
 
-	//Compare Method for comparing fitness
+	// Compare Method for comparing fitness
 	@Override
 	public int compareTo(Chromosome gene) {
 		if (fitness < gene.fitness) {
@@ -85,7 +84,5 @@ public class Chromosome implements Comparable<Chromosome> {
 		}
 		return 0;
 	}
-	
-	
 
 }

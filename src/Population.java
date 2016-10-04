@@ -22,7 +22,7 @@ public class Population {
 			this.p[i] = Chromosome.generateRandom();
 		}
 		/* Sort in order of fitness */
-		Arrays.sort(p); // comment for hill climber
+		Arrays.sort(p); 
 	}
 
 	/* create copy of current population and return it */
@@ -43,18 +43,12 @@ public class Population {
 
 				Chromosome[] parents = selectParents();
 				Chromosome[] children = parents[0].crossover(parents[1]);
-				
-				for (int i=0; i<children.length;i++)
-				if (rand.nextFloat() <= mutation) {
-					children[i] = children[i].mutate();
-				}
-				
+
 				pDash[index++] = children[0];
-				
 				// If space in array add 2nd child
 				if (index < pDash.length) {
 					pDash[index] = children[1];
-					
+
 				}
 			} else {
 				pDash[index] = p[index];
@@ -62,8 +56,12 @@ public class Population {
 
 			index++;
 		}
-		
-		
+
+		for (int i = 0; i < pDash.length; i++) {
+			if (rand.nextFloat() <= mutation) {
+				pDash[i] = pDash[i].mutate();
+			}
+		}
 		Arrays.sort(pDash); // sort based on fitness
 		p = pDash; // P<-P'
 
@@ -88,29 +86,35 @@ public class Population {
 	/* Implements HillClimber */
 	public Chromosome hillClimber() {
 		Chromosome best = null;
+		// start at random point
+		int index = rand.nextInt(p.length);
+		best = p[index];
+		boolean peak = false;
 
 		for (int j = 0; j < 10; j++) {
-			int index = rand.nextInt(p.length);
-			best = p[index];
+			index = rand.nextInt(p.length);
 
-			for (int i = index; i < index + 10; i++) {
-				if (p[index].getFitness() > p[i].getFitness()) {
-					best = p[i];
+			Chromosome current = p[index];
+			Chromosome upper = p[index + 1];
+			Chromosome lower = p[index - 1];
+
+			while (peak != true) {
+
+				if (upper.getFitness() < current.getFitness()) {
+					lower = current;
+					current = upper;
+					upper = p[index + 2];
+
+				} else if (lower.getFitness() < current.getFitness()) {
+					upper = current;
+					current = lower;
+					lower = p[index - 2];
+				} else {
+					peak = true;
 				}
-				if (i == 99) {
-					break;
-				}
+
 			}
-
-			for (int i = index; i > index - 10; i--) {
-
-				if (p[index].getFitness() > p[i].getFitness()) {
-					best = p[i];
-				}
-				if (i == 0) {
-					break;
-				}
-			}
+			// System.out.println(best);
 		}
 
 		return best;
